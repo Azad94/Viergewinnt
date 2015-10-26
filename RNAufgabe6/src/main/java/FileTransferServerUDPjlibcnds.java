@@ -1,12 +1,10 @@
 //package experiment2;
 
 import java.net.*; // we use Sockets
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 
 public class FileTransferServerUDPjlibcnds {
 
-    
+
     public static void main(String args[]) throws Exception{
         // Arguments: port & filename
         int srvPort = Integer.parseInt(args[0]); // server UDP port
@@ -27,7 +25,6 @@ public class FileTransferServerUDPjlibcnds {
         DatagramPacket reply;
 
 	    while (true){
-            DatagramSocket.setSoTimeout(5000);
 		    dtgSock.receive(packet);
 		    System.out.print("*");
 		    // if receive an empty packet will indicate end of file
