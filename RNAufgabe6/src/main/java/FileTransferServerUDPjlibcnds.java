@@ -3,32 +3,32 @@
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
 public class FileTransferServerUDPjlibcnds {
 
     private static final int BUFSIZESEND=508;
+    private static int port;
+    private static InetAddress address;
 
     public static void main(String args[]) throws Exception{
         if (args.length!=2){
             System.err.println("Bitte gebe einen Port und einen Dateipfad an in den args!!");
             System.exit(-1);
         }else {
-            int port = Integer.parseInt(args[0]);
+            port = Integer.parseInt(args[0]);
             String filePath = args[1];
-            List<byte[]> recived;
-            try (DatagramSocket socket = new DatagramSocket(port)){
-                do {
-                    recived=receivePackets(socket);
-                }while (recived.isEmpty());
-                while (true){
-                    sendPackets(readData(filePath),socket);
-                }
-            }catch (IOException e){
-                System.out.println(e.getMessage());
-            }
+            serverRoutine();
         }
+
+    }
+
+    /**
+     * Kümmert sich um den Ablauf des servers
+     */
+    public static void serverRoutine(){
 
     }
 
@@ -38,12 +38,16 @@ public class FileTransferServerUDPjlibcnds {
      * @return          Eine liste an packeten die ampfangen wurden
      *
      */
-    public static List<byte[]> receivePackets(DatagramSocket socket) throws IOException {
+    private List<byte[]> receivePackets(DatagramSocket socket) throws IOException {
         List<byte[]> list = new LinkedList<>();
-        DatagramPacket packet = new DatagramPacket(new byte[BUFSIZESEND],BUFSIZESEND);
         while (true){
+            DatagramPacket packet = new DatagramPacket(new byte[BUFSIZESEND],BUFSIZESEND);
             socket.receive(packet);
-            if(packet.getLength()==0) break;
+            if(packet.getLength()==0){
+                port = packet.getPort();
+                address = packet.getAddress();
+                break;
+            }
             else {
                 list.add(packet.getData());
             }
@@ -58,8 +62,12 @@ public class FileTransferServerUDPjlibcnds {
      * @param data      Die daten die verschickt werdne sollen
      * @param socket    Socket auf dem die Daten gesendet werden sollen.
      */
-    public static void sendPackets(List<byte[]> data,DatagramSocket socket){
-        //TODO sende packete
+    private  void sendPackets(List<byte[]> data,DatagramSocket socket) throws IOException {
+        for (byte[] b : data){
+            DatagramPacket packet = new DatagramPacket(b,b.length, address,port);
+            socket.send(packet);
+        }
+
     }
 
 
@@ -67,7 +75,7 @@ public class FileTransferServerUDPjlibcnds {
      * Liest die Daten von einer Datei und speichert diese in einer Liste als byte[]
      * @param file  Die datei die eingelesen werden soll
      */
-    public static List<byte[]> readData(String file){
+   private List<byte[]> readData(String file){
         //TODO packete lesen und markierung für anfang und ende anbringen
         return new LinkedList<>();
     }
@@ -77,7 +85,7 @@ public class FileTransferServerUDPjlibcnds {
      * @param data  Das array das geprüft werden soll
      * @return      true wenn es eine Fehlerrückmeldung ist false ansonsten
      */
-    private static boolean checkFailure(byte[] data){
+    private boolean checkFailure(byte[] data){
         //TODO checke packet auf fehler
         return true;
     }
