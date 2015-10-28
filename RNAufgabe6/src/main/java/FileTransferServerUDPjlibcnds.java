@@ -1,6 +1,7 @@
 //package experiment2;
 
-import java.io.IOException;
+import javax.xml.stream.events.Characters;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -9,17 +10,18 @@ import java.util.List;
 
 public class FileTransferServerUDPjlibcnds {
 
-    private static final int BUFSIZESEND=508;
+    private static final int BUFSIZESEND = 508;
     private static int port;
     private static InetAddress address;
+    private static String filePath;
 
-    public static void main(String args[]) throws Exception{
-        if (args.length!=2){
+    public static void main(String args[]) throws Exception {
+        if (args.length != 2) {
             System.err.println("Bitte gebe einen Port und einen Dateipfad an in den args!!");
             System.exit(-1);
-        }else {
+        } else {
             port = Integer.parseInt(args[0]);
-            String filePath = args[1];
+            filePath = args[1];
             serverRoutine();
         }
 
@@ -28,27 +30,26 @@ public class FileTransferServerUDPjlibcnds {
     /**
      * Kümmert sich um den Ablauf des servers
      */
-    public static void serverRoutine(){
+    public static void serverRoutine() {
 
     }
 
     /**
      * Empfängt die packet und wirft ordnet diese in Byte [] ein.
-     * @param socket    Socket auf dem die Daten empfangen werden
-     * @return          Eine liste an packeten die ampfangen wurden
      *
+     * @param socket Socket auf dem die Daten empfangen werden
+     * @return Eine liste an packeten die ampfangen wurden
      */
     private List<byte[]> receivePackets(DatagramSocket socket) throws IOException {
         List<byte[]> list = new LinkedList<>();
-        while (true){
-            DatagramPacket packet = new DatagramPacket(new byte[BUFSIZESEND],BUFSIZESEND);
+        while (true) {
+            DatagramPacket packet = new DatagramPacket(new byte[BUFSIZESEND], BUFSIZESEND);
             socket.receive(packet);
-            if(packet.getLength()==0){
+            if (packet.getLength() == 0) {
                 port = packet.getPort();
                 address = packet.getAddress();
                 break;
-            }
-            else {
+            } else {
                 list.add(packet.getData());
             }
         }
@@ -59,13 +60,15 @@ public class FileTransferServerUDPjlibcnds {
 
     /**
      * Schickt die packete an eine gewünschte adresse
-     * @param data      Die daten die verschickt werdne sollen
-     * @param socket    Socket auf dem die Daten gesendet werden sollen.
+     *
+     * @param data   Die daten die verschickt werdne sollen
+     * @param socket Socket auf dem die Daten gesendet werden sollen.
      */
-    private  void sendPackets(List<byte[]> data,DatagramSocket socket) throws IOException {
-        for (byte[] b : data){
-            DatagramPacket packet = new DatagramPacket(b,b.length, address,port);
+    private void sendPackets(List<byte[]> data, DatagramSocket socket) throws IOException, InterruptedException {
+        for (byte[] b : data) {
+            DatagramPacket packet = new DatagramPacket(b, b.length, address, port);
             socket.send(packet);
+            Thread.sleep(100);
         }
 
     }
@@ -73,19 +76,44 @@ public class FileTransferServerUDPjlibcnds {
 
     /**
      * Liest die Daten von einer Datei und speichert diese in einer Liste als byte[]
-     * @param file  Die datei die eingelesen werden soll
+     *
+     * @param file Die datei die eingelesen werden soll
      */
-   private List<byte[]> readData(String file){
-        //TODO packete lesen und markierung für anfang und ende anbringen
-        return new LinkedList<>();
+    private List<byte[]> readData(String file) {
+        byte[] bytes = new byte[10];
+        StringBuilder buffer = new StringBuilder(10);
+        List<byte[]> list = new LinkedList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            int buf;
+            while (true) {
+
+                if ((buf = reader.read()) != Characters.END_DOCUMENT) {
+                    buffer.append(buf);
+                } else break;
+                if (buffer.length()==bytes.length-3){
+                    buffer.append(0b01111110);
+                    buffer.append(buffer.length());
+                    list.add(buffer.toString().getBytes());
+                    buffer.delete(0,buffer.length()-1);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     /**
      * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
-     * @param data  Das array das geprüft werden soll
-     * @return      true wenn es eine Fehlerrückmeldung ist false ansonsten
+     *
+     * @param data Das array das geprüft werden soll
+     * @return true wenn es eine Fehlerrückmeldung ist false ansonsten
      */
-    private boolean checkFailure(byte[] data){
+    private boolean checkFailure(byte[] data) {
         //TODO checke packet auf fehler
         return true;
     }
