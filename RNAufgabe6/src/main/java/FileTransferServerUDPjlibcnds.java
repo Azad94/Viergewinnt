@@ -1,47 +1,48 @@
 //package experiment2;
 
 import java.net.*; // we use Sockets
+import java.util.List;
 
 public class FileTransferServerUDPjlibcnds {
 
+    private static final int BUFSIZESEND=508;
+    private DatagramSocket socket;
+    private String file;
 
     public static void main(String args[]) throws Exception{
-        // Arguments: port & filename
-        int srvPort = Integer.parseInt(args[0]); // server UDP port
-        String filename = args[1]; // server Name
 
-	    // Open special datagramm socket from jlibcnds library, do not change this
-	    javax.net.DatagramSocket dtgSock;
-        dtgSock = new javax.net.DatagramSocket(srvPort);
+    }
 
-        byte[] buf = new byte[4000];
-        byte[] replyByte = new byte[8];
-        replyByte="ready".getBytes();
+    /**
+     * Empfängt die packet und wirft ordnet diese in Byte [] ein.
+     */
+    public static void receivePackets(){
+
+    }
+
+    /**
+     * Schickt die packete an eine gewünschte adresse
+     * @param data  Die daten die verschickt werdne sollen
+     */
+    public static void sendPackets(List<byte[]> data){
+
+    }
 
 
-	    java.io.FileOutputStream fw = new java.io.FileOutputStream(filename);
+    /**
+     * Liest die Daten von einer Datei und speichert diese in einer Liste als byte[]
+     * @param file  Die datei die eingelesen werden soll
+     */
+    public static void readData(String file){
 
-	    DatagramPacket packet = new DatagramPacket(buf, buf.length);
-        DatagramPacket reply;
+    }
 
-	    while (true){
-		    dtgSock.receive(packet);
-		    System.out.print("*");
-		    // if receive an empty packet will indicate end of file
-		
-		    if (packet.getLength()==0){
-                break;
-            }
-			else{
-                reply = new DatagramPacket(replyByte,replyByte.length,packet.getAddress(),packet.getPort());
-                fw.write(packet.getData(),0,packet.getLength());
-                dtgSock.send(reply);
+    /**
+     * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
+     * @param data  Das array das geprüft werden soll
+     * @return      true wenn es eine Fehlerrückmeldung ist false ansonsten
+     */
+    private static boolean checkFailure(byte[] data){
 
-            }
-		    //fw.flush();
-	    }
-	    fw.flush();
-	    fw.close();
-	    dtgSock.close();	// Close the Socket
     }
 }
