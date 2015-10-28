@@ -31,7 +31,10 @@ public class FileTransferServerUDPjlibcnds {
      * Kümmert sich um den Ablauf des servers
      */
     public static void serverRoutine() {
-
+        /**
+         * TODO Soll sich um den allgemeinen ablauf des Server kümmern. Ideal wäre, dass wenn eine Exception gworfen wird
+         * TODO sich dieser nur neustartet oder ähnliches. Heißt der Server soll schon einen gwissen Wiederstand besitzen
+         */
     }
 
     /**
@@ -77,6 +80,11 @@ public class FileTransferServerUDPjlibcnds {
     /**
      * Liest die Daten von einer Datei und speichert diese in einer Liste als byte[]
      *
+     * Außerdem wird noch ein Bytestopfen zum ende hinzugefügt
+     * Dieser bytestopfen signalisiert das ende eines rahmens
+     * Es ist wie folgt zusammengefügt das flag 01111110 zeigt das es einen stopfen gibt
+     * danach folgt die länge des Rahmens
+     *
      * @param file Die datei die eingelesen werden soll
      */
     private List<byte[]> readData(String file) {
@@ -103,18 +111,30 @@ public class FileTransferServerUDPjlibcnds {
             System.err.println(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            if (list.isEmpty()){
+                list.add("failure".getBytes());
+            }
         }
         return list;
     }
 
     /**
      * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
+     * Ein falsches Packet hat mehr nullen als einsen. 100000001 ist ein falsch packet.
      *
      * @param data Das array das geprüft werden soll
      * @return true wenn es eine Fehlerrückmeldung ist false ansonsten
      */
     private boolean checkFailure(byte[] data) {
-        //TODO checke packet auf fehler
-        return true;
+        int zeros=0;
+        int ones=0;
+        for (byte b : data){
+            if(b==0){
+                zeros++;
+            }else ones++;
+        }
+        if (zeros>ones) return true;
+        else return false;
     }
 }
