@@ -10,7 +10,8 @@ import java.util.List;
 
 public class FileTransferServerUDPjlibcnds {
 
-    private static final int BUFSIZESEND = 508;
+    private static final int BUFSIZE = 508;
+    private static final int BUFSIZESEND=10;
     private static int port;
     private static InetAddress address;
     private static String filePath;
@@ -46,9 +47,9 @@ public class FileTransferServerUDPjlibcnds {
     private List<byte[]> receivePackets(DatagramSocket socket) throws IOException {
         List<byte[]> list = new LinkedList<>();
         while (true) {
-            DatagramPacket packet = new DatagramPacket(new byte[BUFSIZESEND], BUFSIZESEND);
+            DatagramPacket packet = new DatagramPacket(new byte[BUFSIZE], BUFSIZE);
             socket.receive(packet);
-            if (packet.getLength() == 0) {
+            if (packet.getLength() == 0) { 
                 port = packet.getPort();
                 address = packet.getAddress();
                 break;
@@ -88,8 +89,7 @@ public class FileTransferServerUDPjlibcnds {
      * @param file Die datei die eingelesen werden soll
      */
     private List<byte[]> readData(String file) {
-        byte[] bytes = new byte[10];
-        StringBuilder buffer = new StringBuilder(10);
+        StringBuilder buffer = new StringBuilder(BUFSIZESEND);
         List<byte[]> list = new LinkedList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -99,13 +99,15 @@ public class FileTransferServerUDPjlibcnds {
                 if ((buf = reader.read()) != Characters.END_DOCUMENT) {
                     buffer.append(buf);
                 } else break;
-                if (buffer.length()==bytes.length-3){
+                //-2 weil die letzen beiden bytes für den bytestopfen reserviert sind
+                if (buffer.length()==BUFSIZESEND-2){
                     buffer.append(0b01111110);
                     buffer.append(buffer.length());
                     list.add(buffer.toString().getBytes());
                     buffer.delete(0,buffer.length()-1);
                 }
             }
+            reader.close();
 
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
