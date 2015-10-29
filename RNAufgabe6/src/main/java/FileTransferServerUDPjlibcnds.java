@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,18 +12,16 @@ public class FileTransferServerUDPjlibcnds {
 
     private static final int BUFSIZE = 508;
     private static final int BUFSIZESEND=8;
-    private static int port;
-    private static InetAddress address;
-    private static String filePath;
 
     public static void main(String args[]) throws Exception {
-        if (args.length != 2) {
+        if (args.length != 3) {
             System.err.println("Bitte gebe einen Port und einen Dateipfad an in den args!!");
             System.exit(-1);
         } else {
-            port = Integer.parseInt(args[0]);
-            filePath = args[1];
-            serverRoutine();
+            int port = Integer.parseInt(args[0]);
+            String filePath = args[1];
+            String host = args[2];
+            serverRoutine(port,filePath,host);
         }
 
     }
@@ -32,24 +29,42 @@ public class FileTransferServerUDPjlibcnds {
     /**
      * Kümmert sich um den Ablauf des servers
      */
-    public static void serverRoutine() {
-        /**
-         * 
-         */
+    public static void serverRoutine(int port,String filePAth,String host) {
+        UDPSocket udp = new UDPSocket(port,host,500);
+        List<String> list;
+        String buffer="";
+        try {
+            list= readData(filePAth);
+            //Empfange leeres Packet vom client
+            while (buffer.isEmpty()){
+                buffer=udp.receive(1);
+            }
+            int i=0;
+            while (i<list.size()-1){
+                udp.send(list.get(i));
+                buffer=udp.receive(BUFSIZE);
+                while (checkFailure(buffer.getBytes())){
+                    udp.send(list.get(i));
+                    buffer = udp.receive(BUFSIZE);
+                }
+                i++;
+            }
+            udp.send("");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
     /**
      * Liest die Daten von einer Datei und speichert diese in einer Liste als byte[]
      *
-     * Außerdem wird noch ein Bytestopfen zum ende hinzugefügt
-     * Dieser bytestopfen signalisiert das ende eines rahmens
-     * Es ist wie folgt zusammengefügt das flag 01111110 zeigt das es einen stopfen gibt
-     * danach folgt die länge des Rahmens
      *
-     * @param file Die datei die eingelesen werden soll
+     * @param file Der Dateipfad zu der Datei die eingelesen werden soll
      */
-    private List<String> readData(String file) {
+    private static List<String> readData(String file) {
         StringBuilder buffer = new StringBuilder(BUFSIZESEND);
         List<String> list = new LinkedList<>();
         try {
@@ -58,7 +73,7 @@ public class FileTransferServerUDPjlibcnds {
                 for (int i = 0; i < BUFSIZESEND; i++) {
                     buffer.append(reader.read());
                 }
-                if (buffer.toString()==""){
+                if ("".equals(buffer.toString())){
                     break;
                 }
                 list.add(buffer.toString());
@@ -78,7 +93,7 @@ public class FileTransferServerUDPjlibcnds {
      * @param data Das array das geprüft werden soll
      * @return true wenn es eine Fehlerrückmeldung ist false ansonsten
      */
-    private boolean checkFailure(byte[] data) {
+    private static boolean checkFailure(byte[] data) {
         int zeros=0;
         int ones=0;
         for (byte b : data){
@@ -86,7 +101,6 @@ public class FileTransferServerUDPjlibcnds {
                 zeros++;
             }else ones++;
         }
-        if (zeros>ones) return true;
-        else return false;
+        return zeros > ones;
     }
 }
