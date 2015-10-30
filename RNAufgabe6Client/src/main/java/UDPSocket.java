@@ -54,12 +54,12 @@ public class UDPSocket {
      * @return                  Ein String der den Inhalt des Packets repräsentiert
      * @throws SocketException  Wenn eine verbindung fehlschlägt.
      */
-    public String receive(int maxBytes) throws IOException {
+    public byte[] receive(int maxBytes) throws IOException {
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
         this.socket.setSoTimeout(this.timeOut);
         this.socket.receive(packet);
         this.address=packet.getAddress();
-        return new String(packet.getData());
+        return packet.getData();
     }
 
     /**

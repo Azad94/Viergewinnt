@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FileTransferClientUDPjlibcnds {
+    private static final int timeOut=1000;
+    private static final int BUFSIZERECEIVE=11;
 
 
     public static void main(String args[]) throws Exception {
@@ -24,7 +27,46 @@ public class FileTransferClientUDPjlibcnds {
     }
 
 
+    /**
+     * Ist für die eigentliche Client Logik zuständig heißt ein und ausgabe
+     * @param port  Port für das senden und empfangen von daten
+     * @param host  Der host an den wir senden
+     * @param file  Die Datei in die wir schreiben werden
+     */
     private static void serverRoutine(int port, String host, String file) {
+        UDPSocket udp;
+        boolean failure;
+        List<String> list;
+        try {
+            udp = new UDPSocket(port, host,timeOut);
+            failure=false;
+            list = new LinkedList<>();
+            byte[] bytes = new byte[BUFSIZERECEIVE];
+            int packageNumber=0;
+            udp.send("");
+            while (true){
+                try {
+                    bytes=udp.receive(BUFSIZERECEIVE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    failure=true;
+                }
+                if (!failure&&bytes.length==0) break;
+                if ((packageNumber=checkFailure(bytes))>0&&!failure){
+                    if (packageNumber==list.size()+1) {
+                        list.add(encodeData(bytes));
+                    }
+                    udp.send("0b10000001");
+                    packageNumber++;
+                }else{
+                    udp.send("0b01111110");
+                }
+            }
+            writeData(list,file);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -33,11 +75,11 @@ public class FileTransferClientUDPjlibcnds {
      *
      * @param data Die daten die geschrieben werden sollen
      */
-    private static void writeData(List<byte[]> data, String filePAth) {
+    private static void writeData(List<String> data, String filePAth) {
         try {
             Writer writer = new FileWriter(new File(filePAth));
-            for (byte[] b : data) {
-                writer.append(new String(b));
+            for (String s : data) {
+                writer.append(s);
             }
             writer.close();
         } catch (IOException e) {
@@ -63,16 +105,14 @@ public class FileTransferClientUDPjlibcnds {
      * Überprüft ob ein Rahmen nicht richtig übersendet wurde in dem es nur die Flag bytes überprüft
      *
      * @param bytes         Der Rahmen der überprüft wird
-     * @param packageNumber Welches packet wird Überprüft anzahl der übertragenden packete
      * @return Die nummer des Packets oder 0 wenn das Packet einen fehler enthält
      */
-    private static int checkFailure(byte[] bytes, int packageNumber) {
+    private static int checkFailure(byte[] bytes) {
         boolean check = false;
         int flagBegin = bytes.length - 3;
         if(((int) bytes[flagBegin]) != 0b01111110) check = true;
         if(((int) bytes[++flagBegin]) != flagBegin) check = true;
-        if(packageNumber != ((int) bytes[++flagBegin])) check = true;
 
-        return check?0:((byte) bytes[bytes.length - 1]);
+        return check?0:((int)bytes[bytes.length - 1]);
     }
 }
