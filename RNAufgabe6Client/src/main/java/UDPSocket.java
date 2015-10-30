@@ -28,7 +28,7 @@ public class UDPSocket {
 
     private int timeOut;
 
-    public UDPSocket(int port, String host,int timeOut) throws SocketException, UnknownHostException {
+    public UDPSocket(int port, String host, int timeOut) throws SocketException, UnknownHostException {
         this.port = port;
         this.address = InetAddress.getByName(host);
         this.timeOut=timeOut;
@@ -40,15 +40,14 @@ public class UDPSocket {
      * @param s             String der zu senden ist.
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
-    public void send(String s,int packetNumber) throws IOException {
-        byte[] bytes = new byte[s.length()+3];
+    public void send(String s) throws IOException {
+        byte[] bytes = new byte[s.length()+2];
         int i=0;
         for (String string : s.split("")){
             bytes[i++]=new Byte(string);
         }
         bytes[i++]=new Byte("0b01111110");
-        bytes[i++]= (byte) s.length();
-        bytes[i]= (byte) packetNumber;
+        bytes[i]= (byte) s.length();
         DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,this.port);
         this.socket.send(packet);
         this.socket.close();

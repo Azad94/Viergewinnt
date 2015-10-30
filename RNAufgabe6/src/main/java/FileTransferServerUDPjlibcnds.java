@@ -17,12 +17,13 @@ public class FileTransferServerUDPjlibcnds {
 
     public static void main(String args[]) throws Exception {
         if (args.length != 3) {
-            System.err.println("Bitte gebe einen Port und einen Dateipfad an in den args!!");
+            System.err.println("Bitte gebe einen Port, einen Dateipfad und einen Host an in den args!!");
             System.exit(-1);
         } else {
             int port = Integer.parseInt(args[0]);
             String filePath = args[1];
             String host = args[2];
+            System.out.println("Starte Server");
             serverRoutine(port,filePath,host);
         }
 
@@ -50,15 +51,15 @@ public class FileTransferServerUDPjlibcnds {
             int i=0;
             //sende packete und empfange sie
             while (i<list.size()-1){
-                udp.send(list.get(i));
+                udp.send(list.get(i),i);
                 buffer=udp.receive(BUFSIZE);
                 while (checkFailure(buffer.getBytes())){
-                    udp.send(list.get(i));
+                    udp.send(list.get(i),i);
                     buffer = udp.receive(BUFSIZE);
                 }
                 i++;
             }
-            udp.send("");
+            udp.send("",0);
 
         } catch (IOException e) {
             e.printStackTrace();
