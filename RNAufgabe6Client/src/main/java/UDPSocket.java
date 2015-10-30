@@ -41,13 +41,7 @@ public class UDPSocket {
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
     public void send(String s) throws IOException {
-        byte[] bytes = new byte[s.length()+2];
-        int i=0;
-        for (String string : s.split("")){
-            bytes[i++]=new Byte(string);
-        }
-        bytes[i++]=new Byte("0b01111110");
-        bytes[i]= (byte) s.length();
+        byte[] bytes = s.getBytes();
         DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,this.port);
         this.socket.send(packet);
         this.socket.close();

@@ -34,6 +34,7 @@ public class FileTransferServerUDPjlibcnds {
      */
     public static void serverRoutine(int port,String filePAth,String host) {
         UDPSocket udp;
+        boolean failureReceive=false;
         try {
             udp = new UDPSocket(port,host,500);
         } catch (SocketException | UnknownHostException e) {
@@ -52,12 +53,15 @@ public class FileTransferServerUDPjlibcnds {
             //sende packete und empfange sie
             while (i<list.size()-1){
                 udp.send(list.get(i),i);
-                buffer=udp.receive(BUFSIZE);
-                while (checkFailure(buffer.getBytes())){
-                    udp.send(list.get(i),i);
-                    buffer = udp.receive(BUFSIZE);
+                try {
+                    buffer=udp.receive(BUFSIZE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    failureReceive=true;
                 }
-                i++;
+                if (!checkFailure(buffer.getBytes())||failureReceive){
+                    i++;
+                }
             }
             udp.send("",0);
 
