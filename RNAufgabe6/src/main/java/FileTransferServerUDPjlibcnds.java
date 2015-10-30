@@ -59,7 +59,7 @@ public class FileTransferServerUDPjlibcnds {
                     e.printStackTrace();
                     failureReceive=true;
                 }
-                if (!checkFailure(buffer.getBytes())||failureReceive){
+                if (!checkFailure(buffer.getBytes())||!failureReceive){
                     i++;
                 }
             }
