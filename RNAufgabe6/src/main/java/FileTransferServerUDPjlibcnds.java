@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,7 +32,13 @@ public class FileTransferServerUDPjlibcnds {
      * Kümmert sich um den Ablauf des servers
      */
     public static void serverRoutine(int port,String filePAth,String host) {
-        UDPSocket udp = new UDPSocket(port,host,500);
+        UDPSocket udp;
+        try {
+            udp = new UDPSocket(port,host,500);
+        } catch (SocketException | UnknownHostException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
         List<String> list;
         String buffer="";
         try {
@@ -40,6 +48,7 @@ public class FileTransferServerUDPjlibcnds {
                 buffer=udp.receive(1);
             }
             int i=0;
+            //sende packete und empfange sie
             while (i<list.size()-1){
                 udp.send(list.get(i));
                 buffer=udp.receive(BUFSIZE);
@@ -54,6 +63,7 @@ public class FileTransferServerUDPjlibcnds {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        udp.closeSocket();
 
     }
 

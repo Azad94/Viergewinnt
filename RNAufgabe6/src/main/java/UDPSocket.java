@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * Created by sven on 29.10.15.
@@ -18,7 +19,7 @@ public class UDPSocket {
     /**
      * Der host zu dem gesprochen wird
      */
-    private String host;
+    private InetAddress address;
 
     /**
      * Socket zum erhalten und versenden der Nachrichten
@@ -27,10 +28,11 @@ public class UDPSocket {
 
     private int timeOut;
 
-    public UDPSocket(int port, String host,int timeOut) {
+    public UDPSocket(int port, String host,int timeOut) throws SocketException, UnknownHostException {
         this.port = port;
-        this.host = host;
+        this.address = InetAddress.getByName(host);
         this.timeOut=timeOut;
+        this.socket= new DatagramSocket();
     }
 
     /**
@@ -39,7 +41,6 @@ public class UDPSocket {
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
     public void send(String s) throws IOException {
-        this.socket = new DatagramSocket();
         byte[] bytes = new byte[s.length()+2];
         int i=0;
         for (String string : s.split("")){
@@ -47,7 +48,6 @@ public class UDPSocket {
         }
         bytes[i++]=new Byte("0b01111110");
         bytes[i]= (byte) s.length();
-        InetAddress address = InetAddress.getByName(this.host);
         DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,this.port);
         this.socket.send(packet);
         this.socket.close();
@@ -61,12 +61,18 @@ public class UDPSocket {
      * @throws SocketException  Wenn eine verbindung fehlschlägt.
      */
     public String receive(int maxBytes) throws IOException {
-        this.socket = new DatagramSocket(this.port);
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
         this.socket.setSoTimeout(this.timeOut);
         this.socket.receive(packet);
-        this.host=packet.getAddress().toString();
+        this.address=packet.getAddress();
         return new String(packet.getData());
+    }
+
+    /**
+     * Schließt die verbindung
+     */
+    public void closeSocket(){
+        this.socket.close();
     }
 
 
