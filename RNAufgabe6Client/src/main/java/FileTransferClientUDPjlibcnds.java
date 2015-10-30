@@ -62,10 +62,10 @@ public class FileTransferClientUDPjlibcnds {
                     udp.send("0b01111110");
                 }
             }
-            writeData(list,file);
+                writeData(list,file);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
         }
 
     }
