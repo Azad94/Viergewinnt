@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = 'FileTransferClientUDPjlibcnds';
+mainClassName = 'FileTransferServerUDPjlibcnds';
 def port = '5000';
 def filePath = '/home/sven/git/Viergewinnt/RNAufgabe6Client/src/main/resources/source_large.txt';
 def host = 'localhost';

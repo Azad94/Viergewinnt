@@ -16,7 +16,7 @@ public class UDPSocket {
     /**
      * Der host zu dem gesprochen wird
      */
-    private InetAddress address;
+    private InetSocketAddress address;
 
     /**
      * Socket zum erhalten und versenden der Nachrichten
@@ -27,9 +27,10 @@ public class UDPSocket {
 
     public UDPSocket(int port, String host,int timeOut) throws SocketException, UnknownHostException {
         this.port = port;
-        this.address = InetAddress.getByName(host);
+        this.address = new InetSocketAddress(host,port);
         this.timeOut=timeOut;
-        this.socket = new DatagramSocket(this.port);
+        this.socket = new DatagramSocket();
+        this.socket.connect(this.address);
     }
 
     /**
@@ -49,7 +50,7 @@ public class UDPSocket {
             bytes[i++]= (byte) s.length();
             bytes[i]= (byte) packetNumber;
         }else bytes = new byte[0];
-        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,this.address,this.port);
+        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,this.address);
         System.out.println(new String(packet.getData()));
         this.socket.send(packet);
         System.out.println("Sende etwas");
@@ -64,6 +65,7 @@ public class UDPSocket {
      */
     public String receive(int maxBytes) throws IOException {
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
+        packet.setPort(this.port);
         this.socket.setSoTimeout(10000);
         this.socket.receive(packet);
         System.out.println("Empfange etwas");
