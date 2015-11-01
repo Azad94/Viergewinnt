@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileTransferServerUDPjlibcnds {
     private static final int timeOut=100000;
-    private static final int BUFSIZERECEIVE=11;
+    private static final int BUFSIZERECEIVE=8;
 
 
     public static void main(String args[]) throws Exception {
@@ -20,7 +20,7 @@ public class FileTransferServerUDPjlibcnds {
             int port = Integer.valueOf(args[1]);
             String host = args[0];
             String filePath = args[2];
-            serverRoutine(port, host, filePath);
+            serverRoutine(port, filePath);
         }
 
 
@@ -30,15 +30,14 @@ public class FileTransferServerUDPjlibcnds {
     /**
      * Ist für die eigentliche Client Logik zuständig heißt ein und ausgabe
      * @param port  Port für das senden und empfangen von daten
-     * @param host  Der host an den wir senden
      * @param file  Die Datei in die wir schreiben werden
      */
-    private static void serverRoutine(int port, String host, String file) {
+    private static void serverRoutine(int port, String file) {
         UDPSocket udp;
         boolean failure;
         List<String> list;
         try {
-            udp = new UDPSocket(port, host,timeOut);
+            udp = new UDPSocket(port,timeOut);
             list = new LinkedList<>();
             byte[] bytes=new byte[BUFSIZERECEIVE];
             int packageNumber=0;
@@ -49,11 +48,12 @@ public class FileTransferServerUDPjlibcnds {
                     if (bytes.length==0) break;
                     failure=false;
                 } catch (IOException e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                     failure=true;
                 }
                 if ((packageNumber=checkFailure(bytes))>=0&&!failure){
                     if (packageNumber==list.size()) {
+                        System.out.println("Hinzugefügt");
                         list.add(encodeData(bytes));
                     }
                     udp.send(0b10000001+"");
@@ -112,7 +112,7 @@ public class FileTransferServerUDPjlibcnds {
         boolean check = false;
         int flagBegin = bytes.length - 3;
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
-        if(((int) bytes[++flagBegin]) !=(byte) flagBegin) check = true;
+        if(((int) bytes[flagBegin+1]) !=(byte) flagBegin) check = true;
 
         return check?-1:((int)bytes[bytes.length - 1]);
     }

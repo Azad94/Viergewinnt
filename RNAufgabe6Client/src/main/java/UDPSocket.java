@@ -1,4 +1,3 @@
-import javax.net.DatagramSocket;
 import java.io.IOException;
 import java.net.*;
 
@@ -21,15 +20,14 @@ public class UDPSocket {
     /**
      * Socket zum erhalten und versenden der Nachrichten
      */
-    private DatagramSocket socket;
+    private javax.net.DatagramSocket socket;
 
     private int timeOut;
 
-    public UDPSocket(int port, String host, int timeOut) throws SocketException, UnknownHostException {
+    public UDPSocket(int port ,int timeOut) throws SocketException, UnknownHostException {
         this.port = port;
-        this.address = InetAddress.getByName(host);
         this.timeOut=timeOut;
-        this.socket= new DatagramSocket(port);
+        this.socket= new javax.net.DatagramSocket(port);
     }
 
     /**
@@ -39,9 +37,9 @@ public class UDPSocket {
      */
     public void send(String s) throws IOException {
         byte[] bytes = s.getBytes();
-        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,this.address,this.port);
+        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,port);
         System.out.println(new String(packet.getData()));
-        this.socket.send(packet);
+        socket.send(packet);
         System.out.println("Sende etwas");
 
     }
@@ -54,8 +52,9 @@ public class UDPSocket {
      */
     public byte[] receive(int maxBytes) throws IOException {
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
-        this.socket.setSoTimeout(10000);
-        this.socket.receive(packet);
+        socket.setSoTimeout(10000);
+        socket.receive(packet);
+        address=packet.getAddress();
         System.out.println(new String(packet.getData()));
         System.out.println("Empfange etwas");
         if (packet.getLength()==0) return new byte[0];
@@ -66,7 +65,7 @@ public class UDPSocket {
      * Schließt die verbindung
      */
     public void closeSocket(){
-        this.socket.close();
+        socket.close();
     }
 
 

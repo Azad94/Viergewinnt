@@ -5,8 +5,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,38 +34,39 @@ public class FileTransferClientUDPjlibcnds {
     public static void serverRoutine(int port,String filePAth,String host) {
         UDPSocket udp;
         boolean failureReceive;
-        try {
-            udp = new UDPSocket(port,host,TIMEOUT);
-        } catch (SocketException | UnknownHostException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
+
         List<String> list;
         String buffer="";
         try {
-            list= readData(filePAth);
-            int i=0;
-            //sende packete und empfange sie
-            while (i<list.size()){
-                udp.send(list.get(i),i);
-                Thread.sleep(500);
-                try {
-                    buffer=udp.receive(BUFSIZE);
-                    failureReceive=false;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    failureReceive=true;
+            udp = new UDPSocket(port,host, TIMEOUT);
+            try {
+                list= readData(filePAth);
+                int i=0;
+                //sende packete und empfange sie
+                while (i<list.size()){
+                    udp.send(list.get(i),i);
+                    Thread.sleep(500);
+                    try {
+                        buffer=udp.receive(BUFSIZE);
+                        failureReceive=false;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        failureReceive=true;
+                    }
+                    if (!checkFailure(buffer)&&!failureReceive){
+                        i++;
+                    }
                 }
-                if (!checkFailure(buffer)&&!failureReceive){
-                    i++;
-                }
-            }
-            udp.send("",0);
+                udp.send("",0);
 
-        } catch (IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                udp.closeSocket();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
-        udp.closeSocket();
 
     }
 
@@ -105,8 +104,8 @@ public class FileTransferClientUDPjlibcnds {
      */
     private static boolean checkFailure(String s) {
         try {
-            if (Integer.parseInt(s)==126) return true;
-            else if (Integer.parseInt(s)==0b01111110) return false;
+            if (Integer.parseInt(s)==0b10000001) return false;
+            else if (Integer.parseInt(s)==0b01111110) return true;
         }catch (Exception e){
         }
         return true;
