@@ -64,7 +64,7 @@ public class UDPSocket {
      */
     public String receive(int maxBytes) throws IOException {
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
-        this.socket.setSoTimeout(this.timeOut);
+        this.socket.setSoTimeout(10000);
         this.socket.receive(packet);
         System.out.println("Empfange etwas");
         System.out.println(new String(packet.getData()));

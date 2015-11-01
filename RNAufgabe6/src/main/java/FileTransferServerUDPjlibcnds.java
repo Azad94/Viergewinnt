@@ -14,7 +14,7 @@ public class FileTransferServerUDPjlibcnds {
 
     private static final int BUFSIZE = 508;
     private static final int BUFSIZESEND=8;
-    private static final int TIMEOUT=10000;
+    private static final int TIMEOUT=100000;
 
     public static void main(String args[]) throws Exception {
         if (args.length != 3) {
@@ -54,7 +54,7 @@ public class FileTransferServerUDPjlibcnds {
             //sende packete und empfange sie
             while (i<list.size()){
                 udp.send(list.get(i),i);
-                Thread.sleep(100);
+                Thread.sleep(500);
                 try {
                     buffer=udp.receive(BUFSIZE);
                     failureReceive=false;

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FileTransferClientUDPjlibcnds {
-    private static final int timeOut=10000;
+    private static final int timeOut=100000;
     private static final int BUFSIZERECEIVE=11;
 
 
@@ -61,11 +61,12 @@ public class FileTransferClientUDPjlibcnds {
                 }else{
                     udp.send(0b01111110+"");
                 }
+                Thread.sleep(500);
             }
             udp.closeSocket();
             writeData(list,file);
 
-            } catch (IOException e) {
+            } catch (InterruptedException  | IOException e) {
                 e.printStackTrace();
         }
 
