@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FileTransferClientUDPjlibcnds {
-    private static final int timeOut=1000;
+    private static final int timeOut=5000;
     private static final int BUFSIZERECEIVE=11;
 
 
@@ -47,6 +47,7 @@ public class FileTransferClientUDPjlibcnds {
             while (true){
                 try {
                     bytes=udp.receive(BUFSIZERECEIVE);
+                    failure=false;
                 } catch (IOException e) {
                     e.printStackTrace();
                     failure=true;
@@ -56,13 +57,13 @@ public class FileTransferClientUDPjlibcnds {
                     if (packageNumber==list.size()+1) {
                         list.add(encodeData(bytes));
                     }
-                    udp.send("0b10000001");
-                    packageNumber++;
+                    udp.send(0b10000001+"");
                 }else{
-                    udp.send("0b01111110");
+                    udp.send("126");
                 }
             }
-                writeData(list,file);
+            udp.closeSocket();
+            writeData(list,file);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -110,8 +111,8 @@ public class FileTransferClientUDPjlibcnds {
     private static int checkFailure(byte[] bytes) {
         boolean check = false;
         int flagBegin = bytes.length - 3;
-        if(((int) bytes[flagBegin]) != 0b01111110) check = true;
-        if(((int) bytes[++flagBegin]) != flagBegin) check = true;
+        if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
+        if(((int) bytes[++flagBegin]) !=(byte) flagBegin) check = true;
 
         return check?0:((int)bytes[bytes.length - 1]);
     }

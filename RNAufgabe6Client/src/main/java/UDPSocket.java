@@ -43,8 +43,9 @@ public class UDPSocket {
     public void send(String s) throws IOException {
         byte[] bytes = s.getBytes();
         DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,this.port);
+        System.out.println(new String(packet.getData()));
         this.socket.send(packet);
-        this.socket.close();
+        System.out.println("Sende etwas");
 
     }
 
@@ -59,6 +60,8 @@ public class UDPSocket {
         this.socket.setSoTimeout(this.timeOut);
         this.socket.receive(packet);
         this.address=packet.getAddress();
+        System.out.println(new String(packet.getData()));
+        System.out.println("Empfange etwas");
         return packet.getData();
     }
 

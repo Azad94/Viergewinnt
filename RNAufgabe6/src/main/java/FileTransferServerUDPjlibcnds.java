@@ -14,6 +14,7 @@ public class FileTransferServerUDPjlibcnds {
 
     private static final int BUFSIZE = 508;
     private static final int BUFSIZESEND=8;
+    private static final int TIMEOUT=5000;
 
     public static void main(String args[]) throws Exception {
         if (args.length != 3) {
@@ -36,18 +37,18 @@ public class FileTransferServerUDPjlibcnds {
         UDPSocket udp;
         boolean failureReceive=false;
         try {
-            udp = new UDPSocket(port,host,500);
+            udp = new UDPSocket(port,host,TIMEOUT);
         } catch (SocketException | UnknownHostException e) {
             System.err.println(e.getMessage());
             return;
         }
         List<String> list;
-        String buffer="";
+        String buffer="etwas";
         try {
             list= readData(filePAth);
             //Empfange leeres Packet vom client
-            while (buffer.isEmpty()){
-                buffer=udp.receive(1);
+            while (buffer.length()!=0){
+                buffer=udp.receive(0);
             }
             int i=0;
             //sende packete und empfange sie
@@ -59,7 +60,7 @@ public class FileTransferServerUDPjlibcnds {
                     e.printStackTrace();
                     failureReceive=true;
                 }
-                if (!checkFailure(buffer.getBytes())||!failureReceive){
+                if (!checkFailure(buffer)||!failureReceive){
                     i++;
                 }
             }
@@ -80,19 +81,15 @@ public class FileTransferServerUDPjlibcnds {
      * @param file Der Dateipfad zu der Datei die eingelesen werden soll
      */
     private static List<String> readData(String file) {
-        StringBuilder buffer = new StringBuilder(BUFSIZESEND);
         List<String> list = new LinkedList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             while (true){
-                for (int i = 0; i < BUFSIZESEND; i++) {
-                    buffer.append(reader.read());
-                }
-                if ("".equals(buffer.toString())){
+                list.add(reader.readLine());
+                if (null==((list.get(list.size()-1)))){
+                    list.remove(list.size()-1);
                     break;
                 }
-                list.add(buffer.toString());
-                buffer.delete(0,buffer.length());
             }
             reader.close();
         } catch (IOException e) {
@@ -105,17 +102,16 @@ public class FileTransferServerUDPjlibcnds {
      * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
      * Ein falsches Packet hat mehr nullen als einsen. 100000001 ist ein falsch packet.
      *
-     * @param data Das array das geprüft werden soll
+     * @param s Das array das geprüft werden soll
      * @return true wenn es eine Fehlerrückmeldung ist false ansonsten
      */
-    private static boolean checkFailure(byte[] data) {
-        int zeros=0;
-        int ones=0;
-        for (byte b : data){
-            if(b==0){
-                zeros++;
-            }else ones++;
+    private static boolean checkFailure(String s) {
+        try {
+            if (Integer.parseInt(s)==126) return true;
+            return false;
+        }catch (Exception e){
+            return false;
         }
-        return zeros > ones;
     }
+
 }

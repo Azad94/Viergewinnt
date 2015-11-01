@@ -5,7 +5,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = 'FileTransferServerUDPjlibcnds';
 def port = '9000';
-def filePath = '/home/sven/git/Viergewinnt/RNAufgabe6/src/main/resources/empfangen.txt';
+def filePath = '/home/sven/git/Viergewinnt/RNAufgabe6/src/main/resources/source_small.txt';
 def host = 'localhost';
 
 sourceCompatibility = 1.8
