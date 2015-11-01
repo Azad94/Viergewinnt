@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FileTransferClientUDPjlibcnds {
-    private static final int timeOut=5000;
+    private static final int timeOut=10000;
     private static final int BUFSIZERECEIVE=11;
 
 
@@ -39,7 +39,6 @@ public class FileTransferClientUDPjlibcnds {
         List<String> list;
         try {
             udp = new UDPSocket(port, host,timeOut);
-            failure=false;
             list = new LinkedList<>();
             byte[] bytes = new byte[BUFSIZERECEIVE];
             int packageNumber=0;
@@ -47,19 +46,20 @@ public class FileTransferClientUDPjlibcnds {
             while (true){
                 try {
                     bytes=udp.receive(BUFSIZERECEIVE);
+                    System.out.println(new String(bytes));
+                    if (bytes.length==0) break;
                     failure=false;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                     failure=true;
                 }
-                if (!failure&&bytes.length==0) break;
-                if ((packageNumber=checkFailure(bytes))>0&&!failure){
-                    if (packageNumber==list.size()+1) {
+                if ((packageNumber=checkFailure(bytes))>=0&&!failure){
+                    if (packageNumber==list.size()) {
                         list.add(encodeData(bytes));
                     }
                     udp.send(0b10000001+"");
                 }else{
-                    udp.send("126");
+                    udp.send(0b01111110+"");
                 }
             }
             udp.closeSocket();
@@ -114,6 +114,6 @@ public class FileTransferClientUDPjlibcnds {
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
         if(((int) bytes[++flagBegin]) !=(byte) flagBegin) check = true;
 
-        return check?0:((int)bytes[bytes.length - 1]);
+        return check?-1:((int)bytes[bytes.length - 1]);
     }
 }

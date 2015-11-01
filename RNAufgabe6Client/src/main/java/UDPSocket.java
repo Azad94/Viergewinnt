@@ -1,9 +1,6 @@
 import javax.net.DatagramSocket;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 
 /**
  * Created by sven on 29.10.15.
@@ -19,7 +16,7 @@ public class UDPSocket {
     /**
      * Der host zu dem gesprochen wird
      */
-    private InetAddress address;
+    private InetSocketAddress address;
 
     /**
      * Socket zum erhalten und versenden der Nachrichten
@@ -30,9 +27,10 @@ public class UDPSocket {
 
     public UDPSocket(int port, String host, int timeOut) throws SocketException, UnknownHostException {
         this.port = port;
-        this.address = InetAddress.getByName(host);
+        this.address = new InetSocketAddress(host,port);
         this.timeOut=timeOut;
         this.socket= new DatagramSocket();
+        this.socket.connect(this.address);
     }
 
     /**
@@ -42,7 +40,7 @@ public class UDPSocket {
      */
     public void send(String s) throws IOException {
         byte[] bytes = s.getBytes();
-        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,this.port);
+        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,this.address);
         System.out.println(new String(packet.getData()));
         this.socket.send(packet);
         System.out.println("Sende etwas");
@@ -59,9 +57,9 @@ public class UDPSocket {
         DatagramPacket packet = new DatagramPacket(new byte[maxBytes],maxBytes);
         this.socket.setSoTimeout(this.timeOut);
         this.socket.receive(packet);
-        this.address=packet.getAddress();
         System.out.println(new String(packet.getData()));
         System.out.println("Empfange etwas");
+        if (packet.getLength()==0) return new byte[0];
         return packet.getData();
     }
 

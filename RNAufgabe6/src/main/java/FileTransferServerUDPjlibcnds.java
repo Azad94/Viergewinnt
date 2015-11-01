@@ -14,7 +14,7 @@ public class FileTransferServerUDPjlibcnds {
 
     private static final int BUFSIZE = 508;
     private static final int BUFSIZESEND=8;
-    private static final int TIMEOUT=5000;
+    private static final int TIMEOUT=10000;
 
     public static void main(String args[]) throws Exception {
         if (args.length != 3) {
@@ -35,7 +35,7 @@ public class FileTransferServerUDPjlibcnds {
      */
     public static void serverRoutine(int port,String filePAth,String host) {
         UDPSocket udp;
-        boolean failureReceive=false;
+        boolean failureReceive;
         try {
             udp = new UDPSocket(port,host,TIMEOUT);
         } catch (SocketException | UnknownHostException e) {
@@ -52,21 +52,23 @@ public class FileTransferServerUDPjlibcnds {
             }
             int i=0;
             //sende packete und empfange sie
-            while (i<list.size()-1){
+            while (i<list.size()){
                 udp.send(list.get(i),i);
+                Thread.sleep(100);
                 try {
                     buffer=udp.receive(BUFSIZE);
+                    failureReceive=false;
                 } catch (IOException e) {
                     e.printStackTrace();
                     failureReceive=true;
                 }
-                if (!checkFailure(buffer)||!failureReceive){
+                if (!checkFailure(buffer)&&!failureReceive){
                     i++;
                 }
             }
             udp.send("",0);
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         udp.closeSocket();
@@ -108,10 +110,10 @@ public class FileTransferServerUDPjlibcnds {
     private static boolean checkFailure(String s) {
         try {
             if (Integer.parseInt(s)==126) return true;
-            return false;
+            else if (Integer.parseInt(s)==0b01111110) return false;
         }catch (Exception e){
-            return false;
         }
+        return true;
     }
 
 }
