@@ -88,23 +88,25 @@ public class Client {
 
         boolean failureReceive;
 
-        List<String> list;
+        List<String> sendList;
         String buffer = "";
+        String packetFromClient="";
         try {
-            list = readData(filePath);
+            sendList = readData(filePath);
             int i = 0;
             //sende packete und empfange sie
-            while (i < list.size()) {
-                send(list.get(i), i, address, socket);
+            while (i < sendList.size()) {
+                send(sendList.get(i), i, address, socket);
                 Thread.sleep(500);
                 try {
                     buffer = receive(BUFSIZE, socket);
                     failureReceive = false;
+                    packetFromClient = receive(BUFSIZE,socket);
                 } catch (IOException e) {
                     e.printStackTrace();
                     failureReceive = true;
                 }
-                if (!checkFailure(buffer) && !failureReceive) {
+                if (!checkBitFailure(packetFromClient,sendList.get(i)) && !failureReceive&&checkFailure(buffer)) {
                     i++;
                 }
             }
@@ -140,13 +142,13 @@ public class Client {
         return list;
     }
 
-    /**
+   /**
      * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
      * Ein falsches Packet hat mehr nullen als einsen. 100000001 ist ein falsch packet.
      *
      * @param s Das array das geprüft werden soll
      * @return true wenn es eine Fehlerrückmeldung ist false ansonsten
-     */
+     * */
     private static boolean checkFailure(String s) {
         try {
             if (Integer.parseInt(s) == 0b10000001) return false;
@@ -155,5 +157,18 @@ public class Client {
             System.out.println(e.getMessage());
         }
         return true;
+    }
+    /**
+     * Prüft ein rahmen auf Bitfehler
+     * @param s             zu prüfender String
+     * @param fromFile      String der datei
+     * @return              Liefert true bei fehler ansonsten false
+     */
+    private static boolean checkBitFailure(String s,String fromFile){
+        String prove = s.substring(0,s.length()-3);
+
+        byte[] bytesFromClient = prove.getBytes();
+        byte[] bytesFromFile = fromFile.getBytes();
+        return Tools.countBitErrorsInByteArray(bytesFromClient, bytesFromFile) > 0;
     }
 }

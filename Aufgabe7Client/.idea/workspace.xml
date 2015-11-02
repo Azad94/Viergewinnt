@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65540498-42d9-48f7-a2f9-4d866ea250c7" name="Default" comment="" />
-    <ignored path="Aufgabe7Server.iws" />
+    <list default="true" id="264bba0e-28f3-47ec-837d-48334e14aa39" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jlibcnds.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/lib/jlibcnds.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/Aufgabe7Server.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Client.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle___jlibcnds_.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_11.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/libraries/Gradle__junit_junit_4_11.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/src/main/java/Server.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Tools.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/src/main/java/Tools.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/compiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/gradle.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/libraries/jlibcnds.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/copyright/profiles_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/source_large.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/source_small.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/sven.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/dictionaries/sven.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Aufgabe7Server/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/cache.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/cache.properties.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/fileHashes.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/fileSnapshots.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/outputFileStates.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.gradle/2.2/taskArtifacts/taskArtifacts.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/gradle.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/libraries/Gradle__junit_junit_4_11.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/RnAufgabe7Server.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/build.gradle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/gradle/wrapper/gradle-wrapper.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/gradle/wrapper/gradle-wrapper.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/gradlew" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/gradlew.bat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../RnAufgabe7Server/settings.gradle" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../RNAufgabe6ClientNeu/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../RNAufgabe6ClientNeu/.idea/workspace.xml" />
+    </list>
+    <ignored path="Aufgabe7Client.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -23,81 +72,26 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <task path="$PROJECT_DIR$">
-          <activation />
-        </task>
-        <projects_view>
-          <tree_state>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Aufgabe7Server" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Aufgabe7Server" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-            </PATH>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Aufgabe7Server" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="build" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
-              </PATH_ELEMENT>
-            </PATH>
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
   <component name="FavoritesManager">
-    <favorites_list name="Aufgabe7Server" />
+    <favorites_list name="Aufgabe7Client" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Tools.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Tools.java">
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.687974">
+              <caret line="164" column="67" selection-start-line="164" selection-start-column="67" selection-end-line="164" selection-end-column="67" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Server.java">
+      <file leaf-file-name="Tools.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Tools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4734561">
-              <caret line="140" column="34" selection-start-line="140" selection-start-column="34" selection-end-line="140" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="246" column="18" selection-start-line="246" selection-start-column="18" selection-end-line="246" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -107,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -115,20 +109,23 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
       <map>
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="Aufgabe7Server" />
+              <option name="name" value="Aufgabe7Client" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="Aufgabe7Server" />
+                <option name="name" value="Aufgabe7Client" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
@@ -187,6 +184,21 @@
                 <option name="name" value="compileTestJava" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Bundles the project as a JVM application with libs and OS specific scripts." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="distTar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Bundles the project as a JVM application with libs and OS specific scripts." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="distZip" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Installs the project as a JVM application along with libs and OS specific scripts." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="installApp" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Assembles a jar archive containing the main classes." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="jar" />
@@ -207,6 +219,16 @@
                 <option name="name" value="processTestResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Runs this project as a JVM application" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="run" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Creates OS specific scripts to run the project as a JVM application." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="startScripts" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Runs the unit tests." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="test" />
@@ -223,7 +245,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="2892869711990" />
+        <entry key="$PROJECT_DIR$" value="2892868251238" />
         <entry key="$PROJECT_DIR$/../RNAufgabe6ServerNeu" value="2892862086076" />
       </map>
     </option>
@@ -237,13 +259,18 @@
                   <entry key="$PROJECT_DIR$">
                     <value>
                       <ExternalModuleBuildClasspathPojo>
+                        <option name="entries">
+                          <list>
+                            <option value="$MODULE_DIR$/lib/jlibcnds.jar" />
+                          </list>
+                        </option>
                         <option name="path" value="$PROJECT_DIR$" />
                       </ExternalModuleBuildClasspathPojo>
                     </value>
                   </entry>
                 </map>
               </option>
-              <option name="name" value="Aufgabe7Server" />
+              <option name="name" value="Aufgabe7Client" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2-all/1vevkra640w3rb9hkuw50q5we/gradle-2.2/src/announce" />
@@ -365,7 +392,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/src/main/java/Server.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Client.java" />
       </list>
     </option>
   </component>
@@ -388,7 +415,7 @@
     <option name="width" value="1920" />
     <option name="height" value="1053" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -411,31 +438,32 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -445,11 +473,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -463,11 +491,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Aufgabe7Server" />
+              <option name="myItemId" value="Aufgabe7Client" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -485,7 +513,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
@@ -493,39 +520,20 @@
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.31264368" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/jlibcnds.jar!/" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/lib" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Aufgabe7Server [build]">
-    <configuration default="false" name="Aufgabe7Server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -725,14 +733,6 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Gradle.Aufgabe7Server [build]" />
-    </list>
-    <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.Aufgabe7Server [build]" />
-      </list>
-    </recent_temporary>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
@@ -740,33 +740,33 @@
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="65540498-42d9-48f7-a2f9-4d866ea250c7" name="Default" comment="" />
-      <created>1446434851883</created>
+      <changelist id="264bba0e-28f3-47ec-837d-48334e14aa39" name="Default" comment="" />
+      <created>1446434075941</created>
       <option name="number" value="Default" />
-      <updated>1446434851883</updated>
-      <workItem from="1446434857060" duration="1215000" />
+      <updated>1446434075941</updated>
+      <workItem from="1446434079348" duration="1992000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1215000" />
+    <option name="totallyTimeSpent" value="1992000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="0" />
+    <frame x="0" y="27" width="1920" height="1053" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912722" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -787,7 +787,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/Tools.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/source_large.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -798,105 +798,26 @@
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Server.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Tools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4734561">
-          <caret line="140" column="34" selection-start-line="140" selection-start-column="34" selection-end-line="140" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="246" column="18" selection-start-line="246" selection-start-column="18" selection-end-line="246" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31264368" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31264368" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>Aufgabe7Server</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>jlibcnds</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31264368" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31264368" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.687974">
+          <caret line="164" column="67" selection-start-line="164" selection-start-column="67" selection-end-line="164" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

@@ -74,8 +74,9 @@ public class Server {
         List<String> list;
         try {
             list = new LinkedList<>();
+            String buffer="";
             byte[] bytes=new byte[0];
-            int packageNumber=0;
+            int packageNumber;
             while (true){
                 try {
                     bytes=receive(BUFSIZERECEIVE,socket);
@@ -88,11 +89,16 @@ public class Server {
                 if ((packageNumber=checkFailure(bytes))>=0&&!failure){
                     if (packageNumber==list.size()) {
                         System.out.println("Hinzugefügt");
-                        list.add(encodeData(bytes));
+                        buffer=encodeData(bytes);
+                        if (buffer.equals(encodeData(bytes))){
+                            list.add(buffer);
+                        }
                     }
                     send(0b10000001 + "",socket, port);
+                    send(buffer,socket, port);
                 }else{
                     send(0b01111110+"",socket, port);
+                    send(buffer,socket,port);
                 }
                 Thread.sleep(500);
             }
@@ -128,8 +134,8 @@ public class Server {
      * @return Den Rahmen ohne Flags
      */
     private static String encodeData(byte[] data) {
-        StringBuilder builder = new StringBuilder(data.length-3);
-        for (int i = 0; i < data.length-4; i++) {
+        StringBuilder builder = new StringBuilder(data.length-4);
+        for (int i = 0; i < data.length-3; i++) {
             builder.append(data[i]);
         }
         return builder.toString();
@@ -143,10 +149,13 @@ public class Server {
      */
     private static int checkFailure(byte[] bytes) {
         boolean check = false;
+        //letzen drei zeichen infos über rahmen
         int flagBegin = bytes.length - 3;
+        //Escape flagg
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
+        //Größe des rahmens prüfen
         if(((int) bytes[flagBegin+1]) !=(byte) flagBegin) check = true;
-
+        //letztes zeichen ist packetnummer
         return check?-1:((int)bytes[bytes.length - 1]);
     }
 }
