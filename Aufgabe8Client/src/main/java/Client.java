@@ -54,6 +54,7 @@ public class Client {
             bytes[i++] = (byte) 0b01111110;
             bytes[i++] = (byte) s.length();
             bytes[i] = (byte) packageNumber;
+            bytes = Tools.addTwoDuplicates(bytes);
         } else bytes = new byte[0];
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address);
         System.out.println(new String(packet.getData()));
