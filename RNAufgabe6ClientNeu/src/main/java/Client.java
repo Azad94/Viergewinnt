@@ -53,9 +53,10 @@ public class Client {
             }
             bytes[i++] = (byte) 0b01111110;
             bytes[i++] = (byte) s.length();
-            bytes[i] = (byte) packageNumber;
+            bytes[i++] = (byte) packageNumber;
         } else bytes = new byte[0];
-        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address);
+        DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
+        packet.setSocketAddress(address);
         System.out.println(new String(packet.getData()));
         socket.send(packet);
         System.out.println("Sende etwas");
@@ -94,9 +95,8 @@ public class Client {
             list = readData(filePath);
             int i = 0;
             //sende packete und empfange sie
-            while (i < list.size()) {
+            while (i != list.size()) {
                 send(list.get(i), i, address, socket);
-                Thread.sleep(500);
                 try {
                     buffer = receive(BUFSIZE, socket);
                     failureReceive = false;
@@ -108,9 +108,10 @@ public class Client {
                     i++;
                 }
             }
-            send("", 0, address, socket);
 
-        } catch (IOException | InterruptedException e) {
+            send("",0,address, socket);
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -149,8 +150,8 @@ public class Client {
      */
     private static boolean checkFailure(String s) {
         try {
-            if (Integer.parseInt(s) == 0b10000001) return false;
-            else if (Integer.parseInt(s) == 0b01111110) return true;
+            if (Integer.parseInt(s.trim()) == 0b10000001) return false;
+            else if (Integer.parseInt(s.trim()) == 0b01111110) return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

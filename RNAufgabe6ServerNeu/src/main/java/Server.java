@@ -5,6 +5,7 @@ import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  */
 public class Server {
 
-    private static final int BUFSIZERECEIVE = 11;
+    private static final int BUFSIZERECEIVE = 8;
     private static InetAddress address;
+    private static int port;
 
     public static void main(String args[]){
         if (args.length != 2) {
@@ -36,7 +38,7 @@ public class Server {
     }
     /**
      *Empfängt einen String
-     * @param maxBytes          Die maximalgröße des empfangenen Packets
+     * @param maxBytes          Diif (InetAddress)e maximalgröße des empfangenen Packets
      * @return                  Ein String der den Inhalt des Packets repräsentiert
      * @throws SocketException  Wenn eine verbindung fehlschlägt.
      */
@@ -45,6 +47,7 @@ public class Server {
         socket.setSoTimeout(10000);
         socket.receive(packet);
         address = packet.getAddress();
+        port = packet.getPort();
         if (packet.getLength()==0) return new byte[0];
         return packet.getData();
     }
@@ -56,10 +59,16 @@ public class Server {
      * @param s             String der zu senden ist.
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
-    public static void send(String s, javax.net.DatagramSocket socket, int port) throws IOException {
+    public static void send(String s, javax.net.DatagramSocket socket) throws IOException {
         byte[] bytes = s.getBytes();
-        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,port);
+        DatagramPacket packet = new DatagramPacket(bytes,bytes.length);
+        if (address!=null){
+            packet.setAddress(address);
+            packet.setPort(port);
+        }
+        else return;
         socket.send(packet);
+        System.out.println(new String(packet.getData()));
 
     }
 
@@ -76,29 +85,33 @@ public class Server {
             list = new LinkedList<>();
             byte[] bytes=new byte[0];
             int packageNumber=0;
+            int end=Integer.MAX_VALUE;
             while (true){
                 try {
                     bytes=receive(BUFSIZERECEIVE,socket);
                     failure=false;
-                    if (bytes.length==0) break;
-                } catch (IOException e) {
+                    System.out.println(bytes.length);
+                    if (bytes.length<8){
+                        break;
+                    }
+                } catch (SocketTimeoutException e) {
                     e.printStackTrace();
                     failure=true;
                 }
                 if ((packageNumber=checkFailure(bytes))>=0&&!failure){
                     if (packageNumber==list.size()) {
                         System.out.println("Hinzugefügt");
+                        System.out.println(new String(bytes));
                         list.add(encodeData(bytes));
                     }
-                    send(0b10000001 + "",socket, port);
+                    send(0b10000001 + "",socket);
                 }else{
-                    send(0b01111110+"",socket, port);
+                    send(0b01111110+"",socket);
                 }
-                Thread.sleep(500);
             }
             writeData(list,file);
 
-        } catch (InterruptedException  | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -142,6 +155,7 @@ public class Server {
      * @return Die nummer des Packets oder 0 wenn das Packet einen fehler enthält
      */
     private static int checkFailure(byte[] bytes) {
+        if (bytes.length<3) return -1;
         boolean check = false;
         int flagBegin = bytes.length - 3;
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
@@ -149,4 +163,5 @@ public class Server {
 
         return check?-1:((int)bytes[bytes.length - 1]);
     }
+
 }
