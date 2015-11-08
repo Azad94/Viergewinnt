@@ -45,7 +45,7 @@ public class Client {
      */
     private static void send(String s, int packageNumber, InetSocketAddress address, javax.net.DatagramSocket socket) throws IOException {
         byte[] bytes;
-        if (!s.equals("")) {
+        if (!s.isEmpty()) {
             int i = 0;
             bytes = new byte[s.length() + 3];
             for (String string : s.split("")) {
@@ -53,7 +53,7 @@ public class Client {
             }
             bytes[i++] = (byte) 0b01111110;
             bytes[i++] = (byte) s.length();
-            bytes[i++] = (byte) packageNumber;
+            bytes[i] = (byte) packageNumber;
         } else bytes = new byte[0];
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
         packet.setSocketAddress(address);
@@ -108,8 +108,18 @@ public class Client {
                     i++;
                 }
             }
-
-            send("",0,address, socket);
+            buffer="";
+            failureReceive=false;
+            //Sende leer um den server zu beenden.
+            while (!buffer.equals("cleanUP")&&!failureReceive){
+                try {
+                    buffer = receive(BUFSIZE,socket);
+                    failureReceive=false;
+                } catch (IOException e) {
+                    failureReceive=true;
+                }
+                send("",0,address, socket);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,6 +164,7 @@ public class Client {
             else if (Integer.parseInt(s.trim()) == 0b01111110) return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return true;
         }
         return true;
     }

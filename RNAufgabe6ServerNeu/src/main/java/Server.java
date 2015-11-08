@@ -59,7 +59,7 @@ public class Server {
      * @param s             String der zu senden ist.
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
-    public static void send(String s, javax.net.DatagramSocket socket) throws IOException {
+    public static void send(String s,javax.net.DatagramSocket socket) throws IOException {
         byte[] bytes = s.getBytes();
         DatagramPacket packet = new DatagramPacket(bytes,bytes.length);
         if (address!=null){
@@ -91,7 +91,12 @@ public class Server {
                     bytes=receive(BUFSIZERECEIVE,socket);
                     failure=false;
                     System.out.println(bytes.length);
-                    if (bytes.length<8){
+                    if (bytes.length==0){
+                        System.out.println(bytes.length);
+                        for (int j=2;j>0;j--) {
+                            send("cleanUp",socket);
+
+                        }
                         break;
                     }
                 } catch (SocketTimeoutException e) {
@@ -114,6 +119,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.exit(0);
 
     }
 
@@ -126,7 +132,7 @@ public class Server {
         try {
             Writer writer = new FileWriter(new File(filePAth));
             for (String s : data) {
-                writer.append(s);
+                writer.append(s+"\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -141,11 +147,7 @@ public class Server {
      * @return Den Rahmen ohne Flags
      */
     private static String encodeData(byte[] data) {
-        StringBuilder builder = new StringBuilder(data.length-3);
-        for (int i = 0; i < data.length-4; i++) {
-            builder.append(data[i]);
-        }
-        return builder.toString();
+        return new String(data,0,data.length-3);
     }
 
     /**
