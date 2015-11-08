@@ -1,0 +1,35 @@
+group 'RNAufgabe6ClientNeu'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'Client';
+def port = '9000';
+def filePath = '/home/sven/git/Viergewinnt/RNAufgabe6ClientNeu/src/main/resources/source_small.txt';
+def host = 'localhost';
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir{
+        dirs 'lib'
+    }
+}
+//tag::jar[]
+jar{
+    baseName= 'Aufgabe6ClientNeu'
+    version = '1.0'
+}
+//end::jar[]
+
+dependencies {
+    compile name:'jlibcnds'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+}
+
+run{
+
+    args = [ port,filePath,host]
+}

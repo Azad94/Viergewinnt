@@ -2,13 +2,35 @@ group 'RNAufgabe6'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'FileTransferClientUDPjlibcnds';
+def port = '5000';
+def filePath = '/home/sven/git/Viergewinnt/RNAufgabe6/src/main/resources/source_small.txt';
+def host = 'localhost';
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    flatDir{
+        dirs 'lib'
+    }
 }
+//tag::jar[]
+jar{
+    baseName= 'Aufgabe6-Server'
+    version = '1.0'
+}
+//end::jar[]
 
 dependencies {
+    compile name:'jlibcnds'
     testCompile group: 'junit', name: 'junit', version: '4.11'
+
 }
+
+run{
+
+    args = [ port,filePath,host]
+}
+

@@ -1,0 +1,34 @@
+group 'Aufgabe7Server'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'Server';
+def port = '5000';
+def filePath = '/home/sven/git/Viergewinnt/Aufgabe7Server/src/main/resources/source_small.txt';
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir{
+        dirs 'lib'
+    }
+}
+//tag::jar[]
+jar{
+    baseName= 'Aufgabe7ServerNeu'
+    version = '1.0'
+}
+//end::jar[]
+
+dependencies {
+    compile name:'jlibcnds'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+}
+
+run{
+
+    args = [ port,filePath]
+}
