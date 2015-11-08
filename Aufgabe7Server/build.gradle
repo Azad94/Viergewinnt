@@ -5,7 +5,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = 'Server';
 def port = '5000';
-def filePath = '/home/sven/git/Viergewinnt/RNAufgabe7ServerNeu/src/main/resources/source_small.txt';
+def filePath = '/home/sven/git/Viergewinnt/Aufgabe7Server/src/main/resources/source_small.txt';
 
 sourceCompatibility = 1.8
 

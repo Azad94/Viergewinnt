@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = 'Client';
 def port = '5000';
-def filePath = '/home/sven/git/Viergewinnt/RNAufgabe7Client/src/main/resources/source_small.txt';
+def filePath = '/home/sven/git/Viergewinnt/Aufgabe7Client/src/main/resources/source_small.txt';
 def host = 'localhost';
 
 sourceCompatibility = 1.8

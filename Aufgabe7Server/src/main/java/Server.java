@@ -5,6 +5,7 @@ import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  */
 public class Server {
 
-    private static final int BUFSIZERECEIVE = 11;
+    private static final int BUFSIZERECEIVE = 9;
     private static InetAddress address;
+    private static int port;
 
     public static void main(String args[]){
         if (args.length != 2) {
@@ -45,6 +47,7 @@ public class Server {
         socket.setSoTimeout(10000);
         socket.receive(packet);
         address = packet.getAddress();
+        port = packet.getPort();
         if (packet.getLength()==0) return new byte[0];
         return packet.getData();
     }
@@ -56,10 +59,16 @@ public class Server {
      * @param s             String der zu senden ist.
      * @throws IOException  Wirdt eine Exception wenn das senden fehlschlägt
      */
-    public static void send(String s, javax.net.DatagramSocket socket, int port) throws IOException {
+    public static void send(String s, javax.net.DatagramSocket socket) throws IOException {
         byte[] bytes = s.getBytes();
-        DatagramPacket packet = new DatagramPacket(bytes,bytes.length,address,port);
+        DatagramPacket packet = new DatagramPacket(bytes,bytes.length);
+        if (address!=null){
+            packet.setAddress(address);
+            packet.setPort(port);
+        }
+        else return;
         socket.send(packet);
+        System.out.println(new String(packet.getData()));
 
     }
 
@@ -74,39 +83,43 @@ public class Server {
         List<String> list;
         try {
             list = new LinkedList<>();
-            String buffer="";
-            byte[] bytes=new byte[0];
-            int packageNumber;
+            byte[] bytes=new byte[BUFSIZERECEIVE];
+            int packageNumber=0;
+            int end=Integer.MAX_VALUE;
             while (true){
                 try {
                     bytes=receive(BUFSIZERECEIVE,socket);
                     failure=false;
-                    if (bytes.length==0) break;
-                } catch (IOException e) {
+                    System.out.println(bytes.length);
+                    if (bytes.length==0){
+                        System.out.println(bytes.length);
+                        for (int j=2;j>0;j--) {
+                            send("cleanUp",socket);
+
+                        }
+                        break;
+                    }
+                } catch (SocketTimeoutException e) {
                     e.printStackTrace();
                     failure=true;
                 }
                 if ((packageNumber=checkFailure(bytes))>=0&&!failure){
                     if (packageNumber==list.size()) {
                         System.out.println("Hinzugefügt");
-                        buffer=encodeData(bytes);
-                        if (buffer.equals(encodeData(bytes))){
-                            list.add(buffer);
-                        }
+                        System.out.println(new String(bytes));
+                        list.add(encodeData(bytes));
                     }
-                    send(0b10000001 + "",socket, port);
-                    send(buffer,socket, port);
+                    send(0b10000001 + "",socket);
                 }else{
-                    send(0b01111110+"",socket, port);
-                    send(buffer,socket,port);
+                    send(0b01111110+"",socket);
                 }
-                Thread.sleep(500);
             }
             writeData(list,file);
 
-        } catch (InterruptedException  | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        System.exit(0);
 
     }
 
@@ -119,7 +132,7 @@ public class Server {
         try {
             Writer writer = new FileWriter(new File(filePAth));
             for (String s : data) {
-                writer.append(s);
+                writer.append(s+"\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -134,11 +147,7 @@ public class Server {
      * @return Den Rahmen ohne Flags
      */
     private static String encodeData(byte[] data) {
-        StringBuilder builder = new StringBuilder(data.length-4);
-        for (int i = 0; i < data.length-3; i++) {
-            builder.append(data[i]);
-        }
-        return builder.toString();
+        return new String(data,0,data.length-4);
     }
 
     /**
@@ -149,13 +158,21 @@ public class Server {
      */
     private static int checkFailure(byte[] bytes) {
         boolean check = false;
+        int parityBit = (int)bytes[bytes.length-1];
+        byte[] checkArray = new byte[bytes.length-1];
+        for (int i = 0; i < checkArray.length; i++) {
+            checkArray[i]=bytes[i];
+        }
+        bytes = Tools.addParityBytes(checkArray);
+        int checkParity = bytes[bytes.length-1];
         //letzen drei zeichen infos über rahmen
-        int flagBegin = bytes.length - 3;
+        int flagBegin = bytes.length - 4;
         //Escape flagg
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
         //Größe des rahmens prüfen
         if(((int) bytes[flagBegin+1]) !=(byte) flagBegin) check = true;
+        if (parityBit != checkParity) check=true;
         //letztes zeichen ist packetnummer
-        return check?-1:((int)bytes[bytes.length - 1]);
+        return check?-1:((int)bytes[bytes.length - 2]);
     }
 }
