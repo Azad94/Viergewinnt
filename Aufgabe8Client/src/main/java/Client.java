@@ -54,6 +54,7 @@ public class Client {
             bytes[i++] = (byte) 0b01111110;
             bytes[i++] = (byte) s.length();
             bytes[i] = (byte) packageNumber;
+            bytes= Tools.addParityBytes(bytes);
             bytes = Tools.addTwoDuplicates(bytes);
         } else bytes = new byte[0];
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address);
@@ -89,33 +90,39 @@ public class Client {
 
         boolean failureReceive;
 
-        List<String> sendList;
+        List<String> list;
         String buffer = "";
-        String packetFromClient="";
         try {
-            sendList = readData(filePath);
+            list = readData(filePath);
             int i = 0;
             //sende packete und empfange sie
-            while (i < sendList.size()) {
-                send(sendList.get(i), i, address, socket);
-                Thread.sleep(500);
+            while (i != list.size()) {
+                send(list.get(i), i, address, socket);
                 try {
-                    //Empfange prüf
                     buffer = receive(BUFSIZE, socket);
                     failureReceive = false;
-                    //Empfange alten rahmen
-                    packetFromClient = receive(BUFSIZE,socket);
                 } catch (IOException e) {
                     e.printStackTrace();
                     failureReceive = true;
                 }
-                if (!checkBitFailure(packetFromClient,sendList.get(i)) && !failureReceive&&checkFailure(buffer)) {
+                if (!checkFailure(buffer) && !failureReceive) {
                     i++;
                 }
             }
-            send("", 0, address, socket);
+            buffer="";
+            failureReceive=false;
+            //Sende leer um den server zu beenden.
+            while (!buffer.equals("cleanUP")&&!failureReceive){
+                try {
+                    buffer = receive(BUFSIZE,socket);
+                    failureReceive=false;
+                } catch (IOException e) {
+                    failureReceive=true;
+                }
+                send("",0,address, socket);
+            }
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -145,7 +152,7 @@ public class Client {
         return list;
     }
 
-   /**
+    /**
      * Prüft ob ein Packet eine Fehler rückgabe hat oder ob es eine normale Rückmeldung ist
      * Ein falsches Packet hat mehr nullen als einsen. 100000001 ist ein falsch packet.
      *
@@ -154,24 +161,12 @@ public class Client {
      * */
     private static boolean checkFailure(String s) {
         try {
-            if (Integer.parseInt(s) == 0b10000001) return false;
-            else if (Integer.parseInt(s) == 0b01111110) return true;
+            if (Integer.parseInt(s.trim()) == 0b10000001) return false;
+            else if (Integer.parseInt(s.trim()) == 0b01111110) return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return true;
         }
         return true;
-    }
-    /**
-     * Prüft ein rahmen auf Bitfehler
-     * @param s             zu prüfender String
-     * @param fromFile      String der datei
-     * @return              Liefert true bei fehler ansonsten false
-     */
-    private static boolean checkBitFailure(String s,String fromFile){
-        String prove = s.substring(0,s.length()-3);
-
-        byte[] bytesFromClient = prove.getBytes();
-        byte[] bytesFromFile = fromFile.getBytes();
-        return Tools.countBitErrorsInByteArray(bytesFromClient, bytesFromFile) > 0;
     }
 }

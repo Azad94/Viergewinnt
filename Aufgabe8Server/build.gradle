@@ -4,10 +4,9 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = 'Client';
+mainClassName = 'Server';
 def port = '5000';
-def filePath = '/home/sven/git/Viergewinnt/RNAufgabe8Server/src/main/resources/source_small.txt';
-def host = 'localhost';
+def filePath = '/home/sven/git/Viergewinnt/Aufgabe8Server/src/main/resources/source_small.txt';
 
 sourceCompatibility = 1.8
 
@@ -32,5 +31,5 @@ dependencies {
 
 run{
 
-    args = [ port,filePath,host]
+    args = [ port,filePath]
 }
