@@ -39,7 +39,7 @@ public class Client {
     }
 
     /**
-     * Sendet einen String an den Server
+     * Sendet einen String an den Server und hängt ach den ganzen overhead an dem rahmen an
      *
      * @param s             Der String der gesendet werden soll
      * @param packageNumber Die nummer des Packets
@@ -52,10 +52,19 @@ public class Client {
             for (String string : s.split("")) {
                 bytes[i++] = (byte) string.charAt(0);
             }
+            //Zeigt an das der Overhead anfängt bzw EscapeByte
             bytes[i++] = (byte) 0b01111110;
+            //Länge des Rahmens für aufgabe 5
             bytes[i++] = (byte) s.length();
+            //Packetnummer für aufgabe 3
             bytes[i] = (byte) packageNumber;
+            //ParityByte für aufgabe 7
+            /*
+            Paritybyte ist nichts anderes als zu zählen wie viele 1 in diesem rahmen sind und am ende eine 1 für gerade
+            und eine 0 für ungerade anzuhängen
+             */
             bytes= Tools.addParityBytes(bytes);
+            //Für aufgabe 8 wird auf der server seite erklärt
             bytes = Tools.addTwoDuplicates(bytes);
         } else bytes = new byte[0];
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address);
@@ -110,7 +119,9 @@ public class Client {
                     e.printStackTrace();
                     failureReceive = true;
                 }
+                //Für aufgabe 6 soll ein packet erneut gesendet werden?
                 if (!checkFailure(buffer) && !failureReceive) {
+                    //Nein
                     i++;
                 }
             }

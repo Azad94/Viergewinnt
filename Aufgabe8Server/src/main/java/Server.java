@@ -89,11 +89,23 @@ public class Server {
                 try {
                     bytes=receive(BUFSIZERECEIVE,socket);
                     failure=false;
+                    /*
+                    Ein Majority voe stellt fest, ob ein Rahmen richtig Übertragen wird.
+                    es wird einfach ein rahmen genommen z.B. 1001 dieses wird dann vorher im client durch
+                    Tools.addTwoduplicates erweitert. Der rahmen sieht nur we folgt aus 100110011001.
+                     Majorityvote checkt nun auf dieser Seite ob sich bit verschoben haben z.B. 1101_1001_1001.
+                     Da Sich an der 2. stelle ein bitfehler eingeschlichen hat wird dieser erkannt in dem einfach geprüft
+                     wird welches bit häufiger eintritt dieses wäre hier dann die 0 somit wird die 0 genommen. Das wird
+                     alle bits vollzogen. Wie man sieht reicht dies allerdings nicht aus es könnte ja auch passieren,
+                     das der Fehler genau anders passiert. Dies wird allerdings durch die Rückwährsfehlerkorrektur aus
+                     Aufgabe 6 hoffentlich abgefangen.
+                     */
                     bytes=Tools.doMajorityVote(bytes);
                     System.out.println(bytes.length);
                     if (bytes.length==0){
                         System.out.println(bytes.length);
                         for (int j=2;j>0;j--) {
+                            //Senden um den client zu beenden
                             send("cleanUp",socket);
 
                         }
@@ -103,17 +115,21 @@ public class Server {
                     e.printStackTrace();
                     failure=true;
                 }
+                //Wenn kein fehler passiert hinzufügen und ACK senden das erneute senden dient für Aufgabe 6
                 if ((packageNumber=checkFailure(bytes))>=0&&!failure){
                     if (packageNumber==list.size()) {
                         System.out.println("Hinzugefügt");
                         System.out.println(new String(bytes));
                         list.add(encodeData(bytes));
                     }
+                    //Sende ACK
                     send(0b10000001 + "",socket);
                 }else{
+                    //Sende false
                     send(0b01111110+"",socket);
                 }
             }
+            //Schreibe daten in die Datei
             writeData(list,file);
 
         } catch (IOException e) {
@@ -141,7 +157,7 @@ public class Server {
     }
 
     /**
-     * Encodiert den Rahmen heißt die flags werden aus dem Rahmen entnommen
+     * Encodiert den Rahmen heißt die flags werden aus dem Rahmen entnommen die an den letzten 4 stellen stehen
      *
      * @param data Der Rahmen der Encodiert wird
      * @return Den Rahmen ohne Flags
@@ -157,12 +173,16 @@ public class Server {
      * @return Die nummer des Packets oder 0 wenn das Packet einen fehler enthält
      */
     private static int checkFailure(byte[] bytes) {
+        //Man sollte vielleicht als erstes auf länge prüfen kann man ja noch einsetzen mache ich Montag
+        //TODO erst auf länge prüfen da sonst der rest fehlschlagen könnte
         boolean check = false;
         int parityBit = (int)bytes[bytes.length-1];
         byte[] checkArray = new byte[bytes.length-1];
+        //Nur um paritybyte zu bekommen
         for (int i = 0; i < checkArray.length; i++) {
             checkArray[i]=bytes[i];
         }
+        //Errechne dieses paritybyte
         bytes = Tools.addParityBytes(checkArray);
         int checkParity = bytes[bytes.length-1];
         //letzen drei zeichen infos über rahmen
@@ -171,6 +191,7 @@ public class Server {
         if(((int) bytes[flagBegin]) !=(byte) 0b01111110) check = true;
         //Größe des rahmens prüfen
         if(((int) bytes[flagBegin+1]) !=(byte) flagBegin) check = true;
+        //Hier auf parity checken
         if (parityBit != checkParity) check=true;
         //letztes zeichen ist packetnummer
         return check?-1:((int)bytes[bytes.length - 2]);
